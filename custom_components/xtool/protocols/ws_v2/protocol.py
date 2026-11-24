@@ -2498,14 +2498,13 @@ class WSV2Protocol(XtoolProtocol):
                     state.working_mode = str(cur_mode["subMode"])
                 if cur_mode.get("taskId"):
                     state.task_id = str(cur_mode["taskId"])
-            # ``cpuTemp`` is reported in milli-degrees Celsius
-            # (verified live on F2 Ultra UV firmware
-            # 40.130.021.00.ht2, Issue #4 log: cpuTemp=43565 =>
-            # 43.6 °C). Divide by 1000 before storing so the
-            # temperature sensor reports the correct unit.
+            # ``cpuTemp`` is in milli-degrees Celsius on the F2 Ultra
+            # UV (40.130.021.00.ht2: cpuTemp=43565 => 43.6 °C) but in
+            # degrees on the M1 Ultra (40.41.018: cpuTemp=43). No CPU
+            # runs at 1000 °C, so larger values are milli-degrees.
             cpu_temp = rt.get("cpuTemp")
             if isinstance(cpu_temp, (int, float)):
-                cpu_temp_c = int(cpu_temp / 1000)
+                cpu_temp_c = int(cpu_temp / 1000) if cpu_temp >= 1000 else int(cpu_temp)
                 state.cpu_temp = cpu_temp_c
                 self._latest["cpu_temp"] = cpu_temp_c
 

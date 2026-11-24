@@ -1189,7 +1189,7 @@ live on every existing V2-firmware device.
 | Endpoint | Frame method | Params | Request body | Response |
 |---|---|---|---|---|
 | `/v1/device/machineInfo` | `GET` | — | — | `{deviceName, sn, mac, ip, machineSubType, deviceCode, firmware:{package_version, master_h3_laserservice, master_rk3568_mainservice, accessories:{…}}, laserPower:[…]}` |
-| `/v1/device/runtime-infos` | `GET` | — | — | `{curMode:{desc, mode, subMode, taskId}}` — `mode` is one of the `P_*` enum (see below). |
+| `/v1/device/runtime-infos` | `GET` | — | — | `{curMode:{desc, mode, subMode, taskId}, cpuTemp, …}` — `mode` is one of the `P_*` enum (see below). `cpuTemp` is in milli-degrees Celsius on the F2 Ultra UV (`43565`) but in degrees on the M1 Ultra (`43`). |
 | `/v1/device/configs` | `GET` | — | — | Full persistent config blob (`{kv:{…}}`). |
 | `/v1/device/configs` | `PUT` | — | `{alias:"config", type:"user", kv:{<key>:<value>}}` | `{result:"ok"}` |
 | `/v1/device/statistics` | `GET` | — | — | Model-specific keys (see [Statistics field aliases](#statistics-field-aliases)) — e.g. F1Ultra/GS003/P3: `{timeModeWorking, timeSystemWork, numOnlineWorking, numOfflineWorking, toolRuntime}`. |
